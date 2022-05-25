@@ -1,14 +1,11 @@
 const driver = require('bigchaindb-driver')
 const base58 = require('bs58');
-const crypto = require('crypto');
+var CryptoJS = require("crypto-js");
 const { Ed25519Sha256 } = require('crypto-conditions');
 
 const API_PATH = 'https://test.ipdb.io/api/v1/'
 const alice = new driver.Ed25519Keypair()
-
-const tx = driver.Transaction.makeCreateTransaction(
-
-    { 
+let data={ 
      transaction_hash:"d236718718704bb56bff2214b1a349b87b34a94566b58745e34eae394011e3d0", 
      status:"Success", 
      block_number:"36457354",
@@ -20,10 +17,11 @@ const tx = driver.Transaction.makeCreateTransaction(
      gas_fee:12,
      datetime: new Date().toString(),
      revocation_status:false,
-      // obtained by hashing above 7 fields
-
-    },
-
+    }
+var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), '45fb3h475ru347rbfwghredf7837dehd').toString();
+const tx = driver.Transaction.makeCreateTransaction(
+    {transaction_data: ciphertext}
+    ,
     { message: 'My first BigchainDB transaction' }, // this is metadata
 
     [ driver.Transaction.makeOutput(

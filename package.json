@@ -12,6 +12,7 @@
   "dependencies": {
     "bigchaindb-driver": "^4.3.0",
     "bs58": "^5.0.0",
-    "crypto-conditions": "^2.2.1"
+    "crypto-conditions": "^2.2.1",
+    "crypto-js": "^4.1.1"
   }
 }
