@@ -32,8 +32,9 @@ app.post("/post", (req,res)=>{
     revocation_status: false,
     prev_hash: "null",
   };
-  res.send(data);
-  // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
+  
+  var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
+  res.send(ciphertext);
   // const tx = driver.Transaction.makeCreateTransaction(
   //   { transaction_data: ciphertext },
   //   { message: "Certificate Generated" },
