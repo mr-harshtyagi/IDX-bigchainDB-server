@@ -34,26 +34,26 @@ app.post("/post", (req,res)=>{
   };
   
   var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
-  res.send(ciphertext);
-  // const tx = driver.Transaction.makeCreateTransaction(
-  //   { transaction_data: ciphertext },
-  //   { message: "Certificate Generated" },
-  //   [
-  //     driver.Transaction.makeOutput(
-  //       driver.Transaction.makeEd25519Condition(receivedData.publicKey)
-  //     ),
-  //   ],
-  //   receivedData.publicKey
-  // );
-  // const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
+  const tx = driver.Transaction.makeCreateTransaction(
+    { transaction_data: ciphertext },
+    { message: "Certificate Generated" },
+    [
+      driver.Transaction.makeOutput(
+        driver.Transaction.makeEd25519Condition(receivedData.publicKey)
+      ),
+    ],
+    receivedData.publicKey
+  );
+  const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
 
-  // const conn = new driver.Connection(API_PATH);
-  // conn
-  //   .postTransactionCommit(txSigned)
-  //   .then((retrievedTx) =>
-  //     console.log("Transaction", retrievedTx.id, "successfully posted.")
-  //   );
-  // res.send("Transaction", retrievedTx.id, "successfully posted.")
+  const conn = new driver.Connection(API_PATH);
+  conn
+    .postTransactionCommit(txSigned)
+    .then((retrievedTx) =>
+      {console.log("Transaction", retrievedTx.id, "successfully posted.");
+      res.send("Transaction", retrievedTx.id, "successfully posted.")}
+    );
+  
 })
 
 
