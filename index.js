@@ -16,23 +16,23 @@ app.use(express.json());
 
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
-  console.log(receivedData);
-  res.send(receivedData)
-  // const API_PATH = "https://test.ipdb.io/api/v1/";
-  // let data = {
-  //   transaction_hash:receivedData.transaction_hash,
-  //   status: "Success",
-  //   block_number: "36457354",
-  //   doc_uid: "3364vfehh37373gg",
-  //   doc_version: "1.0",
-  //   issuer: receivedData.publicKey,
-  //   holder: receivedData.receiver,
-  //   doc_signature:receivedData.signature,
-  //   gas_fee: 12,
-  //   datetime: new Date().toString(),
-  //   revocation_status: false,
-  //   prev_hash: "null",
-  // };
+  
+  const API_PATH = "https://test.ipdb.io/api/v1/";
+  let data = {
+    transaction_hash:receivedData.transaction_hash,
+    status: "Success",
+    block_number: "36457354",
+    doc_uid: "3364vfehh37373gg",
+    doc_version: "1.0",
+    issuer: receivedData.publicKey,
+    holder: receivedData.receiver,
+    doc_signature:receivedData.signature,
+    gas_fee: 12,
+    datetime: new Date().toString(),
+    revocation_status: false,
+    prev_hash: "null",
+  };
+  res.send(data);
   // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
   // const tx = driver.Transaction.makeCreateTransaction(
   //   { transaction_data: ciphertext },
