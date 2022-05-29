@@ -16,41 +16,42 @@ app.use(express.json());
 
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
-  const API_PATH = "https://test.ipdb.io/api/v1/";
-  let data = {
-    transaction_hash:receivedData.transaction_hash,
-    status: "Success",
-    block_number: "36457354",
-    doc_uid: "3364vfehh37373gg",
-    doc_version: "1.0",
-    issuer: receivedData.publicKey,
-    holder: receivedData.receiver,
-    doc_signature:receivedData.signature,
-    gas_fee: 12,
-    datetime: new Date().toString(),
-    revocation_status: false,
-    prev_hash: "null",
-  };
-  var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
-  const tx = driver.Transaction.makeCreateTransaction(
-    { transaction_data: ciphertext },
-    { message: "Certificate Generated" },
-    [
-      driver.Transaction.makeOutput(
-        driver.Transaction.makeEd25519Condition(receivedData.publicKey)
-      ),
-    ],
-    receivedData.publicKey
-  );
-  const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
+  console.log(receivedData);
+  // const API_PATH = "https://test.ipdb.io/api/v1/";
+  // let data = {
+  //   transaction_hash:receivedData.transaction_hash,
+  //   status: "Success",
+  //   block_number: "36457354",
+  //   doc_uid: "3364vfehh37373gg",
+  //   doc_version: "1.0",
+  //   issuer: receivedData.publicKey,
+  //   holder: receivedData.receiver,
+  //   doc_signature:receivedData.signature,
+  //   gas_fee: 12,
+  //   datetime: new Date().toString(),
+  //   revocation_status: false,
+  //   prev_hash: "null",
+  // };
+  // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
+  // const tx = driver.Transaction.makeCreateTransaction(
+  //   { transaction_data: ciphertext },
+  //   { message: "Certificate Generated" },
+  //   [
+  //     driver.Transaction.makeOutput(
+  //       driver.Transaction.makeEd25519Condition(receivedData.publicKey)
+  //     ),
+  //   ],
+  //   receivedData.publicKey
+  // );
+  // const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
 
-  const conn = new driver.Connection(API_PATH);
-  conn
-    .postTransactionCommit(txSigned)
-    .then((retrievedTx) =>
-      console.log("Transaction", retrievedTx.id, "successfully posted.")
-    );
-  res.send("Transaction", retrievedTx.id, "successfully posted.")
+  // const conn = new driver.Connection(API_PATH);
+  // conn
+  //   .postTransactionCommit(txSigned)
+  //   .then((retrievedTx) =>
+  //     console.log("Transaction", retrievedTx.id, "successfully posted.")
+  //   );
+  // res.send("Transaction", retrievedTx.id, "successfully posted.")
 })
 
 
