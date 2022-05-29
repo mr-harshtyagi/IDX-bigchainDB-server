@@ -17,6 +17,7 @@ app.use(express.json());
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
   console.log(receivedData);
+  res.send(receivedData)
   // const API_PATH = "https://test.ipdb.io/api/v1/";
   // let data = {
   //   transaction_hash:receivedData.transaction_hash,
