@@ -51,7 +51,7 @@ app.post("/post", (req,res)=>{
     .postTransactionCommit(txSigned)
     .then((retrievedTx) =>
       {console.log("Transaction", retrievedTx.id, "successfully posted.");
-      res.send("Transaction", retrievedTx.id, "successfully posted.")}
+      res.send({hash:retrievedTx.id})}
     );
   
 })
