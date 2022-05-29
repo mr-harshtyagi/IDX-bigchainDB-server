@@ -6,6 +6,7 @@ const { Ed25519Sha256 } = require("crypto-conditions");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 app.use(cors());
@@ -16,7 +17,6 @@ app.use(express.json());
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
   const API_PATH = "https://test.ipdb.io/api/v1/";
-  const alice = new driver.Ed25519Keypair();
   let data = {
     transaction_hash:receivedData.transaction_hash,
     status: "Success",
@@ -34,7 +34,7 @@ app.post("/post", (req,res)=>{
   var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), receivedData.key).toString();
   const tx = driver.Transaction.makeCreateTransaction(
     { transaction_data: ciphertext },
-    { message: "Certificate Generated" }, // this is metadata
+    { message: "Certificate Generated" },
     [
       driver.Transaction.makeOutput(
         driver.Transaction.makeEd25519Condition(receivedData.publicKey)
@@ -42,29 +42,18 @@ app.post("/post", (req,res)=>{
     ],
     receivedData.publicKey
   );
-
   const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
 
-  // Send the transaction off to BigchainDB
   const conn = new driver.Connection(API_PATH);
   conn
     .postTransactionCommit(txSigned)
     .then((retrievedTx) =>
       console.log("Transaction", retrievedTx.id, "successfully posted.")
     );
-
-  // post transaction
   res.send("Transaction", retrievedTx.id, "successfully posted.")
-
 })
 
-const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, function () {
   console.log("Server started on port " + PORT);
 });
-
-
-function postTransaction(){
-
-}
-
