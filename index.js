@@ -16,18 +16,19 @@ app.use(express.json());
 
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
+  // Fetch IDX public and private key from DB
   
   const API_PATH = "https://test.ipdb.io/api/v1/";
   let data = {
     transaction_hash:receivedData.transaction_hash,
     status: "Success",
-    block_number: "36457354",
-    doc_uid: "3364vfehh37373gg",
+    block_number: 1, // put 10 transactions in 1 block
+    doc_uid: randomId(15),
     doc_version: "1.0",
-    issuer: receivedData.publicKey,
-    holder: receivedData.receiver,
-    doc_signature:receivedData.signature,
-    gas_fee: 12,
+    issuer: "get from MongoDB", // Fetch IDX public key
+    holder: receivedData.receiver, //email with xy****@gmail.com
+    doc_signature:"create signature on server",
+    gas_fee: Math.floor((Math.random() * 10) + 1),
     datetime: new Date().toString(),
     revocation_status: false,
     prev_hash: "null",
@@ -45,16 +46,27 @@ app.post("/post", (req,res)=>{
     receivedData.publicKey
   );
   const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
-
   const conn = new driver.Connection(API_PATH);
   conn
     .postTransactionCommit(txSigned)
     .then((retrievedTx) =>
-      {console.log("Transaction", retrievedTx.id, "successfully posted.");
-      res.send({hash:retrievedTx.id})}
+      {
+      console.log("Transaction", retrievedTx.id, "successfully posted.");
+      res.send({hash:retrievedTx.id})
+    }
     );
   
 })
+
+// generate random documentID
+function randomId(length) {
+  return Math.round(
+    Math.pow(36, length + 1) - Math.random() * Math.pow(36, length)
+  )
+    .toString(36)
+    .slice(1);
+}
+
 
 
 app.listen(PORT, function () {
