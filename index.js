@@ -43,7 +43,7 @@ app.post("/post", (req,res)=>{
       sign.write(receivedData.transaction_hash);
       sign.end();
       const signature = sign.sign(pKey, "hex");
-      const verify = createVerify("SHA256");
+      const verify = crypto.createVerify("SHA256");
       verify.write(receivedData.transaction_hash);
       verify.end();
       const status = verify.verify(pubKey, signature, "hex");
@@ -58,7 +58,7 @@ app.post("/post", (req,res)=>{
         holder: receivedData.receiver,
         doc_signature: signature,
         signature_status: status,
-        gas_fee: Math.floor(Math.random() * 10 + 1) +"IDX",
+        gas_fee: Math.floor(Math.random() * 10 + 1) + " IDX",
         datetime: new Date().toString(),
         revocation_status: false,
         prev_hash: "null",
