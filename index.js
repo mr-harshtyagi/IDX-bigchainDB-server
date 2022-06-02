@@ -28,6 +28,11 @@ const idxKeySchema = {
   private_key: String,
 };
 const Key = mongoose.model("Key", idxKeySchema);
+const certificateSchema = {
+  hash: String,
+  certificate_data: Object
+};
+const Certificate = mongoose.model("Certificate", certificateSchema);
 
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
@@ -85,6 +90,12 @@ app.post("/post", (req,res)=>{
          });
     }});})
 
+
+app.post("/posttomongo", (req,res)=>{
+  const receivedData = req.body;
+  res.send(receivedData);
+
+})    
 
 
 // generate random documentID
