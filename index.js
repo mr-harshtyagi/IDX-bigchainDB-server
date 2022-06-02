@@ -7,6 +7,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
+ const privateKey = "F9LwFF7Jmuf2w7icRk3MTBozP333i8TWKKAFmbfrUHVT";
+ const publicKey = "GjgJq7htpLt3rYFTPUyqKBtanupjjuwy6mtYvattKNpN";
 
 const app = express();
 app.use(cors());
@@ -25,7 +27,7 @@ app.post("/post", (req,res)=>{
     block_number: 1, // put 10 transactions in 1 block
     doc_uid: randomId(15),
     doc_version: "1.0",
-    issuer: "get from MongoDB", // Fetch IDX public key
+    issuer: publicKey, // Fetch IDX public key
     holder: receivedData.receiver, //email with xy****@gmail.com
     doc_signature:"create signature on server",
     gas_fee: Math.floor((Math.random() * 10) + 1),
@@ -40,12 +42,12 @@ app.post("/post", (req,res)=>{
     { message: "Certificate Generated" },
     [
       driver.Transaction.makeOutput(
-        driver.Transaction.makeEd25519Condition(receivedData.publicKey)
+        driver.Transaction.makeEd25519Condition(publicKey)
       ),
     ],
     receivedData.publicKey
   );
-  const txSigned = driver.Transaction.signTransaction(tx, receivedData.privateKey);
+  const txSigned = driver.Transaction.signTransaction(tx, privateKey);
   const conn = new driver.Connection(API_PATH);
   conn
     .postTransactionCommit(txSigned)
