@@ -58,7 +58,7 @@ app.post("/post", (req,res)=>{
         transaction_hash: receivedData.transaction_hash,
         status: "Success",
         block_number: 1, // put 10 transactions in 1 block
-        doc_uid: randomId(15),
+        doc_uid:receivedData.doc_uid + 10000000,
         doc_version: "1.0",
         issuer: publicKey,
         holder: receivedData.receiver,
