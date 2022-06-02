@@ -7,8 +7,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
- const privateKey = "F9LwFF7Jmuf2w7icRk3MTBozP333i8TWKKAFmbfrUHVT";
- const publicKey = "GjgJq7htpLt3rYFTPUyqKBtanupjjuwy6mtYvattKNpN";
 
 const app = express();
 app.use(cors());
@@ -18,6 +16,8 @@ app.use(express.json());
 
 app.post("/post", (req,res)=>{
   const receivedData =req.body;
+   const privateKey = "F9LwFF7Jmuf2w7icRk3MTBozP333i8TWKKAFmbfrUHVT";
+   const publicKey = "GjgJq7htpLt3rYFTPUyqKBtanupjjuwy6mtYvattKNpN";
   // Fetch IDX public and private key from DB
   
   const API_PATH = "https://test.ipdb.io/api/v1/";
