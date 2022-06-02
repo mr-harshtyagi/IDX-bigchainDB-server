@@ -27,8 +27,8 @@ app.post("/post", (req,res)=>{
     block_number: 1, // put 10 transactions in 1 block
     doc_uid: randomId(15),
     doc_version: "1.0",
-    issuer: publicKey, // Fetch IDX public key
-    holder: receivedData.receiver, //email with xy****@gmail.com
+    issuer: publicKey, 
+    holder: receivedData.receiver, 
     doc_signature:"create signature on server",
     gas_fee: Math.floor((Math.random() * 10) + 1),
     datetime: new Date().toString(),
