@@ -103,7 +103,7 @@ app.get("/getcertid", (req,res)=> {
     if(err)
     res.send(err)
     else{
-      res.send(foundCertificates.length)
+      res.send("success")
     }
   })
 })
