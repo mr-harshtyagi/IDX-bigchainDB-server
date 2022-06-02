@@ -38,10 +38,15 @@ app.post("/post", (req,res)=>{
     if (err) res.send(err);
     else {
       const pKey = foundKey.private_key;
+      const pubKey= foundKey.public_key;
       const sign = crypto.createSign("SHA256");
       sign.write(receivedData.transaction_hash);
       sign.end();
       const signature = sign.sign(pKey, "hex");
+      const verify = createVerify("SHA256");
+      verify.write(receivedData.transaction_hash);
+      verify.end();
+      const status = verify.verify(pubKey, signature, "hex");
       const API_PATH = "https://test.ipdb.io/api/v1/";
       let data = {
         transaction_hash: receivedData.transaction_hash,
@@ -52,7 +57,8 @@ app.post("/post", (req,res)=>{
         issuer: publicKey,
         holder: receivedData.receiver,
         doc_signature: signature,
-        gas_fee: Math.floor(Math.random() * 10 + 1),
+        signature_status: status,
+        gas_fee: Math.floor(Math.random() * 10 + 1) +"IDX",
         datetime: new Date().toString(),
         revocation_status: false,
         prev_hash: "null",
