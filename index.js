@@ -93,9 +93,20 @@ app.post("/post", (req,res)=>{
 
 app.post("/posttomongo", (req,res)=>{
   const receivedData = req.body;
-  res.send(receivedData);
+  const newCertificate = new Certificate(receivedData);
+  newCertificate.save().then(() => res.send("Certificate saved to DB"));
 
 })    
+
+app.get("/getcertid", (req,res)=> {
+  Certificate.find(function(err, foundCertificates){
+    if(err)
+    res.send(err)
+    else{
+      res.send(foundCertificates.length)
+    }
+  })
+})
 
 
 // generate random documentID
