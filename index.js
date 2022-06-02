@@ -95,7 +95,6 @@ app.post("/posttomongo", (req,res)=>{
   const receivedData = req.body;
   const newCertificate = new Certificate(receivedData);
   newCertificate.save().then(() => res.send("Certificate saved to DB"));
-
 })    
 
 app.get("/getcertid", (req,res)=> {
@@ -103,7 +102,8 @@ app.get("/getcertid", (req,res)=> {
     if(err)
     res.send(err)
     else{
-      res.send("success")
+      let n= foundCertificates.length;
+      res.send(n)
     }
   })
 })
