@@ -18,7 +18,6 @@ app.post("/post", (req,res)=>{
   const receivedData =req.body;
    const privateKey = "F9LwFF7Jmuf2w7icRk3MTBozP333i8TWKKAFmbfrUHVT";
    const publicKey = "GjgJq7htpLt3rYFTPUyqKBtanupjjuwy6mtYvattKNpN";
-  // Fetch IDX public and private key from DB
   
   const API_PATH = "https://test.ipdb.io/api/v1/";
   let data = {
@@ -45,7 +44,7 @@ app.post("/post", (req,res)=>{
         driver.Transaction.makeEd25519Condition(publicKey)
       ),
     ],
-    receivedData.publicKey
+    publicKey
   );
   const txSigned = driver.Transaction.signTransaction(tx, privateKey);
   const conn = new driver.Connection(API_PATH);
