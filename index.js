@@ -123,15 +123,6 @@ app.get("/viewcertificate/:certId/:hash", (req, res) => {
   });
 });
 
-// generate random documentID
-function randomId(length) {
-  return Math.round(
-    Math.pow(36, length + 1) - Math.random() * Math.pow(36, length)
-  )
-    .toString(36)
-    .slice(1);
-}
-
 app.listen(PORT, function () {
   console.log("Server started on port " + PORT);
 });
