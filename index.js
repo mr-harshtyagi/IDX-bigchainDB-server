@@ -91,12 +91,13 @@ app.post("/post", (req,res)=>{
          });
     }});})
 
-
 app.post("/posttomongo", (req,res)=>{
   const receivedData = req.body;
   const newCertificate = new Certificate(receivedData);
-  newCertificate.save().then(() => res.send("Certificate saved to DB"));
-})    
+  newCertificate.save().then(() => {
+    res.send(new Date().toDateString())
+  })    
+})
 
 app.get("/getcertid", (req,res)=> {
   Certificate.find(function(err, foundCertificates){
@@ -105,10 +106,17 @@ app.get("/getcertid", (req,res)=> {
     else{
       let n= foundCertificates.length;
       res.send({id:n})
-    }
-  })
-})
+    }})})
 
+app.get("/viewcertificate/:certId/:hash", (req, res) => {
+  Certificate.findOne( { doc_uid:req.params.certId } ,function (err, foundCertificate) {
+    if (err) res.send(err);
+    else {
+      if(foundCertificate.hash === req.params.hash)
+      res.send(foundCertificate);
+    }
+  });
+});
 
 // generate random documentID
 function randomId(length) {
