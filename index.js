@@ -56,7 +56,7 @@ app.post("/post", (req,res)=>{
       const status = verify.verify(pubKey, signature, "hex");
       const API_PATH = "https://test.ipdb.io/api/v1/";
       let data = {
-        transaction_hash: receivedData.transaction_hash,
+        transaction_hash: receivedData.transaction_hash, // transaction data hash actually
         status: "Success",
         block_number: 1, // put 10 transactions in 1 block
         doc_uid:receivedData.doc_uid + 10000000,
