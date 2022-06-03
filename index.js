@@ -93,9 +93,13 @@ app.post("/post", (req,res)=>{
 
 app.post("/posttomongo", (req,res)=>{
   const receivedData = req.body;
-  const newCertificate = new Certificate(receivedData);
+  const timeStamp = new Date().toDateString();
+  const newCertificate = new Certificate({
+    ...receivedData,
+    time_stamp: timeStamp,
+  });
   newCertificate.save().then(() => {
-    res.send(new Date().toDateString())
+    res.send(timeStamp)
   })    
 })
 
