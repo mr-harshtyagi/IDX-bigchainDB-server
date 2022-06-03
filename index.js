@@ -31,7 +31,7 @@ const Key = mongoose.model("Key", idxKeySchema);
 const certificateSchema = {
   doc_uid:Number,
   hash: String,
-  certificate_data: Array,
+  certificate_data: Object,
   time_stamp:String
 };
 const Certificate = mongoose.model("Certificate", certificateSchema);
