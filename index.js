@@ -133,7 +133,7 @@ app.post("/sendemail", (req, res) => {
     secure:true, // use TLS
     auth: {
       user: "no-reply@identrixprotocol.com",
-      pass: "Harsh@123",
+      pass: process.env.MAIL_PASS,
     },
   });
   var mailOptions = {
