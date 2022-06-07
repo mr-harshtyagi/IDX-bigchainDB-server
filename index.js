@@ -9,6 +9,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
+var nodemailer = require("nodemailer");
 
 const app = express();
 app.use(cors());
@@ -119,6 +120,35 @@ app.get("/viewcertificate/:certId/:hash", (req, res) => {
     else {
       if(foundCertificate.hash === req.params.hash)
       res.send(foundCertificate);
+    }
+  });
+});
+
+app.post("/sendemail", (req, res) => {
+  const receivedData = req.body;
+  console.log(receivedData);
+  var transporter = nodemailer.createTransport({
+    host: "smtp.hostinger.com",
+    port: 465,
+    secure:true, // use TLS
+    auth: {
+      user: "no-reply@identrixprotocol.com",
+      pass: "Harsh@123",
+    },
+  });
+  var mailOptions = {
+    from: "no-reply@identrixprotocol.com",
+    to: receivedData.email,
+    subject: "Congratulations! You received a Certificate",
+    text: `Your Certificate link is ${receivedData.link}`,
+  };
+  //use nodemailer to send an email
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+      res.send("Email sent: " + info.response);
     }
   });
 });
